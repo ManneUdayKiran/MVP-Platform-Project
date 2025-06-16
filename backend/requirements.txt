@@ -60,10 +60,10 @@ h5py==3.10.0
 hpack==3.0.0
 hstspreload==2024.6.1
 html5lib==1.1
-httpcore==0.17.3
-httplib2==0.22.0
-httptools==0.6.1
-httpx==0.24.1
+httpcore
+httplib2
+httptools
+httpx
 huepy==1.2.1
 
 hyperframe==5.2.0
