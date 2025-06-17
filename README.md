@@ -3,6 +3,8 @@
 
 🚀 **Prompt-to-Product** is a powerful MVP platform that lets developers instantly turn prompts into usable code or insights. It combines the capabilities of AI chat and code generation in a single, intuitive interface.
 
+
+visit my app at https://prompt-to-product.onrender.com
 ---
 
 ## 🧠 Elevator Pitch
