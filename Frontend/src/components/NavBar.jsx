@@ -12,6 +12,7 @@ const { Header } = Layout;
 export default function NavBar({ isLoggedIn = false, user }) {
   const location = useLocation();
   const navigate = useNavigate();
+  
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const { theme, setTheme } = useTheme();
   
@@ -39,15 +40,6 @@ export default function NavBar({ isLoggedIn = false, user }) {
       console.error('Error signing out:', error);
     }
   };
-
-  // Appearance submenu for theme selection
-  const appearanceMenu = (
-    <Menu selectedKeys={[theme]} onClick={({ key }) => setTheme(key)}>
-      <Menu.Item key="light">Light</Menu.Item>
-      <Menu.Item key="dark">Dark</Menu.Item>
-      <Menu.Item key="system">System</Menu.Item>
-    </Menu>
-  );
 
   const menu = (
     <Menu style={{ minWidth: '200px' }}>
@@ -85,10 +77,12 @@ export default function NavBar({ isLoggedIn = false, user }) {
   );
 
   return (
-    <Layout>
+    <div  style={{ backgroundColor: 'black'
+  }}>
       <Header
         style={{
-          backgroundColor: 'black',
+          backgroundColor:'black',
+
           padding: '0 24px',
           display: 'flex',
           alignItems: 'center',
@@ -101,16 +95,17 @@ export default function NavBar({ isLoggedIn = false, user }) {
         }}
       >
         {/* Left side: Logo + Nav links */}
-        <div className="d-flex gap-4" style={{ color: 'white', display: 'flex', alignItems: 'center', gap: '24px' }}>
+        <div className="d-flex gap-4" style={{ color: '', display: 'flex', alignItems: 'center', gap: '24px',          
+  }}>
           <Link to="/" style={{ fontSize: 18, fontWeight: 'bold', color: 'white', textDecoration: 'none' }}>
-            AI Code Generator
-          </Link>
-          <Link to="/" style={{ color: location.pathname === '/' ? '#1890ff' : 'white', textDecoration: 'none' }}>
-            Home
-          </Link>
-          <Link to="/docs" style={{ color: location.pathname === '/docs' ? '#1890ff' : 'white', textDecoration: 'none' }}>
-            Docs
-          </Link>
+          AI Code Generator
+        </Link>
+        <Link to="/" style={{ color: 'white', textDecoration: 'none' }}>
+          Home
+        </Link>
+        <Link to="/docs" style={{ color: 'white', textDecoration: 'none' }}>
+          Docs
+        </Link>
           <a
             href="https://github.com/"
             target="_blank"
@@ -133,10 +128,10 @@ export default function NavBar({ isLoggedIn = false, user }) {
                 marginRight: '20px'
               }}>
                 <Avatar
-                  src={user?.photoURL}
+                  src={user?.photoURL || <UserOutlined />}
                   icon={!user?.photoURL && <UserOutlined />}
                   style={{ 
-                    backgroundColor: !user?.photoURL ? '#1890ff' : 'transparent',
+                    backgroundColor: !user?.photoURL ? '#1890ff' : 'blue',
                     width: '32px',
                     height: '32px'
                   }}
@@ -188,6 +183,6 @@ export default function NavBar({ isLoggedIn = false, user }) {
         isOpen={isSettingsModalOpen} 
         onClose={() => setIsSettingsModalOpen(false)} 
       />
-    </Layout>
+    </div>
   );
 }

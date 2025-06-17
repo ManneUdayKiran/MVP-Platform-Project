@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 absl-py==2.0.0
 adb==1.3.0
 addict==2.4.0
@@ -187,3 +188,44 @@ websockets==12.0
 Werkzeug==3.0.1
 whitenoise==6.8.2
 
+=======
+﻿annotated-types==0.7.0
+anyio==4.9.0
+beautifulsoup4==4.13.4
+certifi==2025.1.31
+charset-normalizer==3.4.1
+click==8.1.8
+colorama==0.4.6
+deep-translator==1.11.4
+distro==1.9.0
+fastapi==0.115.12
+groq==0.23.1
+gTTS==2.5.4
+h11==0.14.0
+httpcore==0.17.3
+httptools==0.6.4
+httpx==0.24.1
+idna==3.10
+langdetect==1.0.9
+packaging==25.0
+pillow==11.2.1
+pydantic==2.11.3
+pydantic_core==2.33.1
+pydub==0.25.1
+pytesseract==0.3.13
+python-dotenv==1.1.0
+python-multipart==0.0.20
+PyYAML==6.0.2
+requests==2.32.3
+six==1.17.0
+sniffio==1.3.1
+soupsieve==2.7
+SpeechRecognition==3.14.2
+starlette==0.46.2
+typing-inspection==0.4.0
+typing_extensions==4.13.2
+urllib3==2.4.0
+uvicorn==0.34.2
+watchfiles==1.0.5
+websockets==15.0.1
+>>>>>>> d81a89627082ec1b68f3812963e686cfc57926d3

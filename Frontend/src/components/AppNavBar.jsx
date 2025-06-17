@@ -84,9 +84,11 @@ const AppNavBar = () => {
           <span style={{ fontWeight: '500' }}>{user?.displayName || user?.email || "User"}</span>
         </div>
       </Menu.Item>
-      <Menu.SubMenu key="appearance" icon={<AppstoreOutlined />} title="Appearance">
-        {appearanceMenu.props.children}
-      </Menu.SubMenu>
+    <Menu.Item key='Dashboard' >
+      <Link style={{textDecoration:'none'}} to='/userpage'>Go to Dashboard</Link>
+
+    </Menu.Item>
+      
       <Menu.Item key="settings" icon={<SettingOutlined />} onClick={() => setIsSettingsModalOpen(true)}>
         Settings
       </Menu.Item>
@@ -153,7 +155,7 @@ const AppNavBar = () => {
               <Button
                 type="primary"
                 style={{
-                  backgroundColor: 'white',
+                  backgroundColor: 'rgb(39, 39, 37)',
                   border: 'none',
                   color: 'black',
                   fontWeight: 'bold',
@@ -185,46 +187,42 @@ const AppNavBar = () => {
         {/* Right side: Deploy Button */}
         <div>
           {user && (
-            <Button
+            <div className='m-3 '>
+            <a href="http://localhost:8000/download">
+  <Button
+    style={{
+      backgroundColor: 'white',
+      color: 'black',
+      padding: '8px 16px',
+      borderRadius: '5px',
+      fontWeight: 'bold',
+      border: '1px solid gray',
+      marginRight:'20px'
+    }}
+    >
+    Download App
+  </Button>
+</a>
+
+            {/* <Button
               type="primary"
               icon={<RocketOutlined />}
               onClick={handleDeploy}
               loading={deploying}
               style={{
-                  backgroundColor: '#1890ff',
+                backgroundColor: '#1890ff',
                 border: 'none',
                 fontWeight: 'bold',
               }}
             >
               Deploy
-            </Button>
+            </Button> */}
+          </div>
           )}
         </div>
       </Header>
 
-      <Modal
-        title="Deploy Your Application"
-        open={isDeployModalOpen}
-        onOk={handleDeployConfirm}
-        onCancel={() => setIsDeployModalOpen(false)}
-        confirmLoading={deploying}
-      >
-        <div style={{ marginBottom: '20px' }}>
-          <p>Your application will be deployed to Vercel. This process will:</p>
-          <ol>
-            <li>Push your code to GitHub</li>
-            <li>Create a new Vercel project</li>
-            <li>Deploy your application</li>
-            <li>Provide you with a live URL</li>
-          </ol>
-          <p>Make sure you have:</p>
-          <ul>
-            <li>A GitHub account connected</li>
-            <li>A Vercel account connected</li>
-            <li>All your changes saved</li>
-          </ul>
-        </div>
-      </Modal>
+     
 
       <SettingsModal 
         isOpen={isSettingsModalOpen} 

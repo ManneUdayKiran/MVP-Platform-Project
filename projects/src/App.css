@@ -1,118 +1,118 @@
-.container {
+.app {
     max-width: 800px;
-    margin: 0 auto;
+    margin: 20px auto;
     padding: 20px;
+    background: #f5f5f5;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 h1 {
     text-align: center;
-    color: #2c3e50;
+    color: #333;
     margin-bottom: 30px;
 }
 
-form {
+.todo-container {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.input-container {
     display: flex;
     gap: 10px;
-    justify-content: center;
-    margin-bottom: 30px;
-}
-
-.search-input {
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    width: 300px;
-}
-
-.search-button {
-    padding: 10px 20px;
-    background-color: #3498db;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.search-button:hover {
-    background-color: #2980b9;
-}
-
-.error-message {
-    color: #e74c3c;
-    text-align: center;
     margin-bottom: 20px;
 }
 
-.weather-container {
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
-
-.current-weather {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-.current-details {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    margin-top: 20px;
-}
-
-.current-temp {
-    font-size: 24px;
-    font-weight: bold;
-}
-
-.condition {
-    font-size: 18px;
-    color: #7f8c8d;
-}
-
-.additional-details {
+.todo-input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
     font-size: 16px;
-    color: #7f8c8d;
+    transition: border-color 0.3s ease;
 }
 
-.forecast {
-    margin-top: 30px;
+.todo-input:focus {
+    outline: none;
+    border-color: #4CAF50;
 }
 
-.forecast-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 10px;
+.add-btn {
+    padding: 10px 20px;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
 }
 
-.forecast-card {
-    background-color: #fff;
-    padding: 15px;
-    border-radius: 5px;
-    text-align: center;
-    box-shadow: 0 0 5px rgba(0,0,0,0.1);
-    transition: transform 0.3s;
+.add-btn:hover {
+    background: #45a049;
 }
 
-.forecast-card:hover {
-    transform: translateY(-2px);
+.todo-list {
+    margin-bottom: 20px;
 }
 
-.day {
-    font-weight: bold;
+.todo-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background: #f8f8f8;
     margin-bottom: 5px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
 }
 
-.temp {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 5px;
+.todo-item.completed {
+    background: #f0f0f0;
 }
 
-.condition {
+.todo-item.completed .todo-text {
+    text-decoration: line-through;
+    opacity: 0.7;
+}
+
+.todo-item:hover {
+    transform: translateX(5px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.todo-checkbox {
+    margin-right: 10px;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.todo-text {
+    flex: 1;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.delete-btn {
+    padding: 5px 10px;
+    background: #ff4444;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
     font-size: 14px;
-    color: #7f8c8d;
+    transition: background 0.3s ease;
+}
+
+.delete-btn:hover {
+    background: #cc0000;
+}
+
+.todo-footer {
+    text-align: center;
+    color: #666;
+    font-size: 14px;
 }

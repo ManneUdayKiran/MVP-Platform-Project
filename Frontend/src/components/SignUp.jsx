@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Checkbox, Divider, Form, Input, Typography } from "antd";
-import { GoogleOutlined, GithubOutlined } from "@ant-design/icons";
+import { GoogleOutlined, ArrowLeftOutlined } from "@ant-design/icons";
 import { auth, provider } from "../firebase";
 import { signInWithPopup, createUserWithEmailAndPassword } from "firebase/auth";
 import { Link } from "react-router-dom";
@@ -65,6 +65,11 @@ const SignUp = () => {
             style={{ height: 40 }}
           />
         </div> */}
+         <div className="" style={{marginBottom:50}}  >
+        <Link className="  hover:cursor-pointer text-white p-2 rounded " style={{ marginBottom: 10,textDecoration:'none',border:'1px solid #333', }} to='/'>
+        <ArrowLeftOutlined className="mx-1" /> Go to Home</Link>
+        
+      </div>
 
         <Title level={2} style={{ color: "white", textAlign: "center" }}>
           Create your account
@@ -114,7 +119,7 @@ const SignUp = () => {
 
         <Text style={{ color: "#999" }}>
           <div style={{ textAlign: "center" }}>
-            Don't have an account? <Link to="/login">login</Link>
+            Already have an account? <Link to="/login">login</Link>
           </div>
         </Text>
       </div>

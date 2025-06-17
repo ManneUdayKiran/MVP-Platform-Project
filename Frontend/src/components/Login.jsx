@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Checkbox, Divider, Form, Input, Typography } from "antd";
-import { GoogleOutlined } from "@ant-design/icons";
+import { GoogleOutlined,ArrowLeftOutlined } from "@ant-design/icons";
 import { auth, provider } from "../firebase";
 import { signInWithPopup, signInWithEmailAndPassword } from "firebase/auth";
 import { Link } from "react-router-dom";
@@ -10,6 +10,7 @@ import "../App.css"; // Contains .inp class for placeholder color
 // import { auth } from "./firebase"; // adjust path
 
 const { Title, Text } = Typography;
+
 
 const Login = () => {
     const navigate = useNavigate();
@@ -62,6 +63,7 @@ const handleLogout = async () => {
         padding: 20,
       }}
     >
+      
       <div
         style={{
           maxWidth: 400,
@@ -71,6 +73,11 @@ const handleLogout = async () => {
           borderRadius: 8,
         }}
       >
+        <div className="" style={{marginBottom:50}}  >
+        <Link className="  hover:cursor-pointer text-white p-2 rounded " style={{ marginBottom: 10,textDecoration:'none',border:'1px solid #333', }} to='/'>
+        <ArrowLeftOutlined className="mx-1" /> Go to Home</Link>
+        
+      </div>
         <Title level={2} style={{ color: "white", textAlign: "center" }}>
           Login
         </Title>

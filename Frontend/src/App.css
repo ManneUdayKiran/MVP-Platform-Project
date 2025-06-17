@@ -53,6 +53,11 @@ body {
   background: #141414;
 }
 
+.dark-theme .ant-layout-header {
+  background: #1f1f1f;
+  color: #ffffff;
+}
+
 .dark-theme .ant-menu {
   background: #1f1f1f;
   color: #ffffff;
@@ -187,16 +192,16 @@ body {
 
 /* Splitter handle and border styles */
 .ant-splitter-handle {
-  background-color: white !important;
+  background-color: rgba(255, 255, 255, 0.493) !important;
 }
 
 .ant-splitter-handle-bar {
-  background-color: white !important;
+  background-color: rgba(255, 255, 255, 0.247) !important;
 }
 
 /* Add border to panels */
 .ant-splitter-panel {
-  border-right: 1px solid white;
+  /* border-right: 1px solid white; */
 }
 
 .ant-splitter-panel:last-child {
@@ -238,4 +243,15 @@ body {
 
 .loading-spinner {
   animation: spin 1s linear infinite;
+}
+
+::-webkit-scrollbar {
+  width: 5px; /* adjust the width to your liking */
+  background-color: #cccccc2d; /* gray background color */
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #aaaaaadc; /* gray thumb color */
+  border-radius: 5px;
 }

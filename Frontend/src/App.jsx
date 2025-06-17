@@ -10,9 +10,12 @@ import { auth } from './firebase';
 import axios from 'axios';
 import { Layout } from 'antd';
 import { Content } from 'antd/lib/layout/layout';
+import { DeleteOutlined } from '@ant-design/icons';
+
+
 
 const { TextArea } = Input;
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 const MAX_PROMPT_LENGTH = 1000;
 
 class ErrorBoundary extends React.Component {
@@ -69,7 +72,7 @@ class ErrorBoundary extends React.Component {
   }
 }
 
-const App = ({ prompt: initialPrompt }) => {
+const App = ({ prompt: initialPrompt,onClear }) => {
   const [prompt, setPrompt] = useState(initialPrompt || "");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -84,6 +87,8 @@ const App = ({ prompt: initialPrompt }) => {
   const containerRef = useRef(null);
   const { theme } = useTheme();
   const navigate = useNavigate();
+  const [hasPreview, setHasPreview] = useState(false);
+
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -100,6 +105,10 @@ const App = ({ prompt: initialPrompt }) => {
     
     setLoading(true);
     setError(null);
+    // setFilesToEmbed(files); // this is your generated file object
+
+    setPreviewKey(prev => prev + 1); // triggers a fresh preview mount
+
     
     try {
       const response = await axios.post(`${API_BASE_URL}/generate`, {
@@ -113,13 +122,26 @@ const App = ({ prompt: initialPrompt }) => {
         return;
       }
 
-      const newMessage = {
-        role: 'assistant',
-        content: response.data.text_response || 'Generated successfully!',
-        timestamp: new Date().toISOString()
-      };
+     // First, add the user message
+const userMessage = {
+  role: 'user',
+  content: prompt, // or whatever your input variable is
+  timestamp: new Date().toISOString(),
+};
+setMessages(prev => [...prev, userMessage]);
 
-      setMessages(prev => [...prev, newMessage]);
+
+
+// Then fetch response and add assistant message
+// const response = await axios.post(...); // your API call
+
+const newMessage = {
+  role: 'assistant',
+  content: response.data.text_response || 'Generated successfully!',
+  timestamp: new Date().toISOString()
+};
+setMessages(prev => [...prev, newMessage]);
+
       
       if (response.data.files) {
         // Prepare files for StackBlitz
@@ -139,6 +161,7 @@ root.render(
 );`,
           'src/App.css': response.data.files['src/App.css'] || '',
           'src/index.css': response.data.files['src/index.css'] || '',
+          // 'package.json': response.data.files['package.json'] || '',
           'public/index.html': response.data.files['public/index.html'] || `
 <!DOCTYPE html>
 <html lang="en">
@@ -151,15 +174,19 @@ root.render(
     <div id="root"></div>
   </body>
 </html>`,
-          'package.json': {
-            dependencies: {
-              'react': '^18.2.0',
-              'react-dom': '^18.2.0'
-            }
-          }
+           'package.json': `
+{
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    
+  }
+}
+`
+
         };
 
-        // Add any additional files from the backend
+       
         Object.entries(response.data.files).forEach(([filename, content]) => {
           if (!files[filename]) {
             files[filename] = content;
@@ -168,10 +195,18 @@ root.render(
 
         console.log('Files for StackBlitz:', files);
 
-        if (containerRef.current) {
+       
+        
+
+        if (!containerRef.current ) return;
           try {
             // Clear previous content
-            containerRef.current.innerHTML = '';
+  //            containerRef.current.innerHTML = ''; // existing
+  // containerRef.current.removeAttribute('data-sb'); // ensure clean slate
+
+            
+            
+
             
             await sdk.embedProject(
               containerRef.current,
@@ -182,7 +217,7 @@ root.render(
                 files: files,
                 settings: {
                   compile: {
-                    triggerOnSave: false,
+                    triggerOnSave: true,
                     clearConsole: false
                   }
                 }
@@ -196,12 +231,13 @@ root.render(
                 forceEmbedLayout: true
               }
             );
-            console.log('StackBlitz preview initialized successfully');
+            console.log('StackBlitz preview initialized successfully');setPrompt(''); // Clear the prompt after generation
+
           } catch (error) {
             console.error('Error initializing StackBlitz:', error);
             setError('Failed to initialize preview: ' + error.message);
           }
-        }
+        
       } else {
         console.warn('No files received from backend');
       }
@@ -210,6 +246,9 @@ root.render(
       setError(err.message || 'An error occurred while generating the response');
     } finally {
       setLoading(false);
+      
+      // setPreviewKey(prev => prev + 1); // Trigger re-render of the preview
+      setHasPreview(true); // Indicate that we have a preview
     }
   };
 
@@ -239,15 +278,16 @@ root.render(
       backgroundColor: theme === 'dark' ? '#141414' : '#fff'
     }}>
       {/* Message Area */}
-      <div style={{ flex: 1, overflow: 'auto', padding: '16px' }}>
+      <div style={{ flex: 1, overflow: 'auto', padding: '16px',color: theme === 'dark' ? 'white' : 'black' }}>
         <MessageArea messages={messages} onClear={() => setMessages([])} theme={theme} />
         {error && <Alert message="Error" description={error} type="error" showIcon style={{ marginTop: '16px' }} />}
         {warning && <Alert message="Warning" description={warning} type="warning" showIcon style={{ marginTop: '16px' }} />}
       </div>
 
       {/* Prompt Area */}
-      <div style={{ padding: '16px', borderTop: `1px solid ${theme === 'dark' ? '#434343' : '#d9d9d9'}` }}>
+      <div style={{ padding: '16px', border: `1px solid ${theme === 'dark' ? '#434343' : '#d9d9d9'}`,borderRadius:'5px' }}>
         <TextArea
+        className="textarea"
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
           placeholder="Enter your prompt here..."
@@ -257,7 +297,6 @@ root.render(
             backgroundColor: 'transparent',
             border: 'none',
             fontSize: '16px',
-            color: theme === 'dark' ? '#fff' : '#000',
           }}
           onPressEnter={(e) => {
             if (!e.shiftKey) {
@@ -274,40 +313,75 @@ root.render(
           >
             Generate
           </Button>
+
           <Button
-            onClick={() => setPrompt('')}
-            style={{
-              borderColor: theme === 'dark' ? '#434343' : '#d9d9d9',
-              color: theme === 'dark' ? '#fff' : '#000',
-            }}
-          >
-            Clear
-          </Button>
+          className=""
+      icon={<DeleteOutlined />}
+      type="text"
+      danger
+      onClick={() => setMessages([])}
+      style={{border: '1px solid #d9d9d9', color: theme === 'dark' ? 'black' : '#000',backgroundColor: theme === 'dark' ? '#fff' : '#f5f5f5',borderRadius: '4px'}}
+    >
+      Clear
+    </Button>
+         
         </div>
+        
       </div>
     </div>
   </Splitter.Panel>
 
   {/* RIGHT PANEL */}
-  <Splitter.Panel>
-    <div style={{
+ <Splitter.Panel >
+  <div
+  key={previewKey}
+    style={{
       height: '100%',
       background: theme === 'dark' ? '#1f1f1f' : '#ffffff',
       position: 'relative',
       border: `1px solid ${theme === 'dark' ? '#434343' : '#d9d9d9'}`,
       borderRadius: '8px',
       overflow: 'hidden',
-    }}>
-      <div
-        key={previewKey}
-        ref={containerRef}
-        style={{
-          height: '100%',
-          width: '100%',
-        }}
-      />
+    }}
+  >
+    {loading && (
+      <div style={{
+        position: 'absolute', top: '50%', left: '50%',
+        transform: 'translate(-50%, -50%)', textAlign: 'center',
+      }}>
+        <Spin size="large" />
+        <p style={{ marginTop: '10px',color:'white' }}>
+          Generating preview...
+        </p>
+      </div>
+    )}
+
+    <div
+      // key={previewKey}
+      ref={containerRef}
+      style={{
+        height: '100%',
+        width: '100%',
+        opacity: loading ? 0.3 : 1, // optional visual cue
+        pointerEvents: loading ? 'none' : 'auto',
+      }}
+    >
+      {!hasPreview && !loading && (
+        <div style={{
+          color: theme === 'dark' ? '#ccc' : '#888',
+          textAlign: 'center',
+          padding: '1rem',
+          marginTop: '20rem',
+        }}>
+          This is Live Preview
+        </div>
+      )}
     </div>
-  </Splitter.Panel>
+   
+  </div>
+</Splitter.Panel>
+
+
 </Splitter>
 
           </div>

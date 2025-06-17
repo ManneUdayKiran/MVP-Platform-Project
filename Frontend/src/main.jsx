@@ -16,6 +16,7 @@ import SignUp from './components/SignUp.jsx';
 import Login from './components/Login.jsx';
 import UserPage from './components/UserPage.jsx';
 import PrivateRoute from './components/PrivateRoute.jsx';
+import AppNavBar from './components/AppNavBar.jsx';
 
 const AppContent = () => {
   const location = useLocation();

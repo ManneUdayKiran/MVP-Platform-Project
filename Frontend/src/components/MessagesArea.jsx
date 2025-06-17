@@ -22,8 +22,8 @@ const MessageArea = ({ messages, onClear, theme }) => {
       whiteSpace: 'pre-wrap',
       color: theme === 'dark' ? '#fff' : '#000',
       backgroundColor: isUser
-        ? theme === 'dark' ? '#096dd9' : '#e6f7ff'
-        : theme === 'dark' ? '#237804' : '#f6ffed',
+        ? theme === 'dark' ? 'rgba(255, 255, 255, 0.81)' : '#e6f7ff'
+        : theme === 'dark' ? 'teal' : '#f4f4f4',
       alignSelf: isUser ? 'flex-start' : 'flex-end',
     };
   };
@@ -37,9 +37,10 @@ const MessageArea = ({ messages, onClear, theme }) => {
         background: theme === 'dark' ? 'rgb(28,28,28)' : '#fff',
         display: 'flex',
         flexDirection: 'column',
+        color: theme === 'dark' ? 'white' : 'white',
       }}
     >
-      {messages.length > 0 && (
+      {/* {messages.length > 0 && (
         <Button
           type="text"
           icon={<DeleteOutlined />}
@@ -57,7 +58,7 @@ const MessageArea = ({ messages, onClear, theme }) => {
         >
           Clear
         </Button>
-      )}
+      )} */}
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
         {messages.map((msg, index) => (
