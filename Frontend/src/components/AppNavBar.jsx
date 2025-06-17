@@ -188,7 +188,7 @@ const AppNavBar = () => {
         <div>
           {user && (
             <div className='m-3 '>
-            <a href="http://localhost:8000/download">
+            <a href="https://mvp-platform-project.onrender.com/download">
   <Button
     style={{
       backgroundColor: 'white',
