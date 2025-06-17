@@ -7,10 +7,16 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from fastapi.responses import FileResponse, JSONResponse
 from utils.file_utils import save_file, list_files, get_file_content, setup_project_structure
-
+from fastapi.responses import FileResponse
+import shutil
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+from pathlib import Path
+
+# Get current file path
+current_dir = Path(__file__).resolve().parent
 
 app = FastAPI()
 
@@ -154,7 +160,7 @@ async def generate_code(req: PromptRequest):
         "3. src/index.js\n"
         "4. src/App.css\n"
         "5. src/index.css\n"
-        "6. src/server.js\n\n"
+        "6. src/server.js\n"
         
         "Format each file like this:\n"
         "```public/index.html\ncode content\n```\n"
@@ -183,16 +189,22 @@ async def generate_code(req: PromptRequest):
         "- Structure the data to match typical API response formats\n"
         "- Add comments explaining how to replace with real API data\n\n"
         
-        "Styling Requirements:\n"
-        "- Add modern, responsive styles in src/index.css\n"
-        "- Use CSS variables for consistent theming\n"
-        "- Include styles for common elements (buttons, inputs, containers)\n"
-        "- Add responsive design with media queries\n"
-        "- Use flexbox or grid for layouts\n"
-        "- Include hover and focus states for interactive elements\n"
-        "- Add smooth transitions and animations\n"
-        "- Ensure styles are scoped to prevent conflicts\n"
-        "- Make sure App.js imports and uses the styles correctly\n\n"
+       "Styling Requirements:\n"
+"- Add modern, responsive styles in src/index.css\n"
+"- Use CSS variables for consistent theming\n"
+"- Include styles for common elements (buttons, inputs, containers)\n"
+"- Add responsive design with media queries\n"
+"- Use flexbox or grid for layouts\n"
+"- Include hover and focus states for interactive elements\n"
+"- Add smooth transitions and animations using only advanced CSS (e.g., transform, opacity, scale, keyframes)\n"
+"- Use CSS keyframe animations and transition properties for interactive effects (e.g., fade-in, slide-up, scale on hover)\n"
+"- Ensure styles are scoped to prevent conflicts\n"
+        "- Use CSS modules or styled-components for scoped styles\n"
+        "- Ensure styles are modular and reusable\n"
+"- Make sure App.js imports and uses the styles correctly\n\n"
+
+
+
         
         "Text Response Template:\n"
         "Use this format for the text response (PART 1):\n"
@@ -388,3 +400,13 @@ async def auto_fix_error(req: AutoFixErrorRequest):
     except Exception as e:
         logger.error(f"Auto-fix error: {str(e)}")
         return {"patch": "", "message": f"Auto-fix failed: {str(e)}"}
+@app.get("/download")
+def download_app():
+    source_folder = current_dir.parent / "projects"
+    output_zip = "app_download.zip"
+
+    if not os.path.exists(source_folder):
+        return {"error": "Source folder does not exist"}
+
+    shutil.make_archive("app_download", 'zip', source_folder)
+    return FileResponse(path=output_zip, filename="MyApp.zip", media_type='application/zip')
