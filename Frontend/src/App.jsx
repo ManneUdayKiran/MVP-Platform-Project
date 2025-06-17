@@ -15,7 +15,7 @@ import { DeleteOutlined } from '@ant-design/icons';
 
 
 const { TextArea } = Input;
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+const API_BASE_URL = import.meta.env.VITE_API_URL || "https://mvp-platform-project.onrender.com";
 const MAX_PROMPT_LENGTH = 1000;
 
 class ErrorBoundary extends React.Component {
