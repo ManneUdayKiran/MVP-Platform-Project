@@ -34,7 +34,7 @@ BASE_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "projects")
 PROJECT_DIR, PUBLIC_DIR = setup_project_structure(BASE_DIR)
 
 # === Config ===
-GROQ_API_KEY = "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"  # Store in .env or shell
+# GROQ_API_KEY = ""  # Store in .env or shell
 GROQ_MODEL = "deepseek-r1-distill-llama-70b"  # or llama3-8b-8192, gemma2-9b-it
 
 # === Request Models ===
