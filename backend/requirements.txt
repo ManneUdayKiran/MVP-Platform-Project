@@ -17,7 +17,7 @@ httpx==0.24.1
 idna==3.10
 langdetect==1.0.9
 packaging==25.0
-pillow==11.2.1
+pillow==11.3.0
 pydantic==2.11.3
 pydantic_core==2.33.1
 pydub==0.25.1
