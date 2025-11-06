@@ -4,8 +4,10 @@ import { getAuth } from 'firebase/auth';
 import { GoogleAuthProvider } from 'firebase/auth';
 import { getFirestore } from "firebase/firestore";
 
-
-
+// Firebase configuration with environment variables
+// Note: Firebase API keys are safe to expose in client-side code as they identify your Firebase project
+// Security is enforced through Firebase Security Rules, not by hiding the API key
+// However, it's still recommended to use environment variables for better configuration management
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyDsj-7HJoJk7ev0-Pot-Xq31J9wT66mKtM",
