@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Layout, Avatar, Dropdown, Menu, Button, Modal, message } from 'antd';
-import { UserOutlined, SettingOutlined, LogoutOutlined, AppstoreOutlined, RocketOutlined } from '@ant-design/icons';
+import { Layout, Avatar, Dropdown, Menu, Button } from 'antd';
+import { UserOutlined, SettingOutlined, LogoutOutlined, AppstoreOutlined } from '@ant-design/icons';
 import { useNavigate, Link } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import { auth } from '../firebase';
 import { useTheme } from '../context/ThemeContext';
 import SettingsModal from './SettingsModal';
-import { pushToGitHub, deployToVercel } from '../utils/deployment';
 
 const { Header } = Layout;
 
@@ -14,9 +13,7 @@ const AppNavBar = () => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
-  const [isDeployModalOpen, setIsDeployModalOpen] = useState(false);
-  const [deploying, setDeploying] = useState(false);
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -33,35 +30,6 @@ const AppNavBar = () => {
       console.error('Error logging out:', error);
     }
   };
-
-  const handleDeploy = () => {
-    setIsDeployModalOpen(true);
-  };
-
-  const handleDeployConfirm = async () => {
-    setDeploying(true);
-    try {
-      const repoName = `ai-generated-app-${Date.now()}`;
-      const githubUrl = await pushToGitHub(window.location.href, repoName);
-      const deployUrl = await deployToVercel(githubUrl);
-      message.success('Deployment successful!');
-      window.open(deployUrl, '_blank');
-    } catch (error) {
-      message.error('Deployment failed: ' + error.message);
-    } finally {
-      setDeploying(false);
-      setIsDeployModalOpen(false);
-    }
-  };
-
-  // Appearance submenu for theme selection
-  const appearanceMenu = (
-    <Menu selectedKeys={[theme]} onClick={({ key }) => setTheme(key)}>
-      <Menu.Item key="light">Light</Menu.Item>
-      <Menu.Item key="dark">Dark</Menu.Item>
-      <Menu.Item key="system">System</Menu.Item>
-    </Menu>
-  );
 
   const menu = (
     <Menu style={{ minWidth: '200px' }}>

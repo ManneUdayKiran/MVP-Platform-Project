@@ -36,19 +36,12 @@ const Login = () => {
     try {
       await signInWithEmailAndPassword(auth, values.email, values.password);
       navigate("/userpage");
-    } catch (err) {
+    } catch {
       setError("Invalid email or password");
     } finally {
       setLoading(false);
     }
   };
-
-const handleLogout = async () => {
-  await signOut(auth);
-  setUser(null); // clear user in state
-  navigate("/login"); // redirect to login
-};
-
 
 
   return (

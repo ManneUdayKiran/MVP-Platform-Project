@@ -4,7 +4,7 @@ import { DeleteOutlined } from '@ant-design/icons';
 
 const { Text } = Typography;
 
-const MessageArea = ({ messages, onClear, theme }) => {
+const MessageArea = ({ messages, theme }) => {
   const messagesEndRef = useRef(null);
 
   useEffect(() => {

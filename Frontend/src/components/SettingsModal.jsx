@@ -11,7 +11,7 @@ const { Sider, Content } = Layout;
 const SettingsModal = ({ isOpen, onClose }) => {
   const [selectedKey, setSelectedKey] = useState('account');
   const navigate = useNavigate();
-  const { theme, setTheme } = useTheme();
+  const { setTheme } = useTheme();
 
   const handleLogout = async () => {
     try {

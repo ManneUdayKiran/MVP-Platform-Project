@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
-import { Input, Button, Splitter, message, Alert, Spin } from "antd";
+import React, { useState, useRef, useEffect } from "react";
+import { Input, Button, Splitter, Alert, Spin } from "antd";
 import sdk from "@stackblitz/sdk";
 import MessageArea from "./components/MessagesArea";
 import AppNavBar from "./components/AppNavBar";
@@ -34,7 +34,7 @@ class ErrorBoundary extends React.Component {
         filename: '',
       });
       this.setState({ patch: res.data.patch, patchMsg: res.data.message });
-    } catch (e) {
+    } catch {
       this.setState({ patchMsg: 'Failed to get auto-fix suggestion.' });
     }
   }
@@ -72,18 +72,12 @@ class ErrorBoundary extends React.Component {
   }
 }
 
-const App = ({ prompt: initialPrompt,onClear }) => {
+const App = ({ prompt: initialPrompt }) => {
   const [prompt, setPrompt] = useState(initialPrompt || "");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [messages, setMessages] = useState([]);
-  const [warning, setWarning] = useState(null);
-  const [placeholderVars, setPlaceholderVars] = useState([]);
-  const [userValues, setUserValues] = useState({});
-  const [editingVar, setEditingVar] = useState(null);
-  const [filesToEmbed, setFilesToEmbed] = useState({});
   const [previewKey, setPreviewKey] = useState(0);
-  const [user, setUser] = useState(null);
   const containerRef = useRef(null);
   const { theme } = useTheme();
   const navigate = useNavigate();
@@ -91,9 +85,8 @@ const App = ({ prompt: initialPrompt,onClear }) => {
 
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      setUser(user);
-      if (!user) {
+    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
+      if (!currentUser) {
         navigate('/');
       }
     });
@@ -281,7 +274,6 @@ root.render(
       <div style={{ flex: 1, overflow: 'auto', padding: '16px',color: theme === 'dark' ? 'white' : 'black' }}>
         <MessageArea messages={messages} onClear={() => setMessages([])} theme={theme} />
         {error && <Alert message="Error" description={error} type="error" showIcon style={{ marginTop: '16px' }} />}
-        {warning && <Alert message="Warning" description={warning} type="warning" showIcon style={{ marginTop: '16px' }} />}
       </div>
 
       {/* Prompt Area */}

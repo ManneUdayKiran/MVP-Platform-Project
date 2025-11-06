@@ -16,14 +16,13 @@ export const pushToGitHub = async (code, name) => {
       },
       {
         headers: {
-          Authorization: `token ${process.env.VITE_GITHUB_TOKEN}`,
+          Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
           Accept: 'application/vnd.github.v3+json'
         }
       }
     );
 
     const repoUrl = createRepoResponse.data.html_url;
-    const repoName = createRepoResponse.data.full_name;
 
     // Then, push the code to the repository
     // This would typically involve:
@@ -53,7 +52,7 @@ export const deployToVercel = async (githubUrl) => {
       },
       {
         headers: {
-          Authorization: `Bearer ${process.env.VITE_VERCEL_TOKEN}`,
+          Authorization: `Bearer ${import.meta.env.VITE_VERCEL_TOKEN}`,
           'Content-Type': 'application/json'
         }
       }
@@ -68,7 +67,7 @@ export const deployToVercel = async (githubUrl) => {
       },
       {
         headers: {
-          Authorization: `Bearer ${process.env.VITE_VERCEL_TOKEN}`,
+          Authorization: `Bearer ${import.meta.env.VITE_VERCEL_TOKEN}`,
           'Content-Type': 'application/json'
         }
       }

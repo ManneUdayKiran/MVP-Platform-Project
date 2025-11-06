@@ -1,20 +1,17 @@
 import { Button, Layout, Avatar, Dropdown, Menu } from 'antd';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { UserOutlined, SettingOutlined, LogoutOutlined, AppstoreOutlined } from '@ant-design/icons';
+import { Link, useNavigate } from 'react-router-dom';
+import { UserOutlined, SettingOutlined, LogoutOutlined } from '@ant-design/icons';
 import { signOut } from 'firebase/auth';
 import { auth } from '../firebase';
 import { useState, useEffect } from 'react';
 import SettingsModal from './SettingsModal';
-import { useTheme } from '../context/ThemeContext';
 
 const { Header } = Layout;
 
 export default function NavBar({ isLoggedIn = false, user }) {
-  const location = useLocation();
   const navigate = useNavigate();
   
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
-  const { theme, setTheme } = useTheme();
   
   console.log('NavBar user object:', user); // Debug log for entire user object
   console.log('User photo URL:', user?.photoURL); // Debug log for photo URL
