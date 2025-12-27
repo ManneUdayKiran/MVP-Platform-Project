@@ -1,19 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { Layout, Avatar, Dropdown, Menu, Button, Modal, message } from 'antd';
-import { UserOutlined, SettingOutlined, LogoutOutlined, AppstoreOutlined, RocketOutlined } from '@ant-design/icons';
-import { useNavigate, Link } from 'react-router-dom';
-import { signOut } from 'firebase/auth';
-import { auth } from '../firebase';
-import { useTheme } from '../context/ThemeContext';
-import SettingsModal from './SettingsModal';
-import { pushToGitHub, deployToVercel } from '../utils/deployment';
+import React, { useState, useEffect } from "react";
+import { Layout, Avatar, Dropdown, Menu, Button, Modal, message } from "antd";
+import {
+  UserOutlined,
+  LogoutOutlined,
+  RocketOutlined,
+} from "@ant-design/icons";
+import { useNavigate, Link } from "react-router-dom";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase";
+import { useTheme } from "../context/ThemeContext";
+import { pushToGitHub, deployToVercel } from "../utils/deployment";
 
 const { Header } = Layout;
 
 const AppNavBar = () => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
-  const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const [isDeployModalOpen, setIsDeployModalOpen] = useState(false);
   const [deploying, setDeploying] = useState(false);
   const { theme, setTheme } = useTheme();
@@ -28,9 +30,9 @@ const AppNavBar = () => {
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      navigate('/login');
+      navigate("/login");
     } catch (error) {
-      console.error('Error logging out:', error);
+      console.error("Error logging out:", error);
     }
   };
 
@@ -44,10 +46,10 @@ const AppNavBar = () => {
       const repoName = `ai-generated-app-${Date.now()}`;
       const githubUrl = await pushToGitHub(window.location.href, repoName);
       const deployUrl = await deployToVercel(githubUrl);
-      message.success('Deployment successful!');
-      window.open(deployUrl, '_blank');
+      message.success("Deployment successful!");
+      window.open(deployUrl, "_blank");
     } catch (error) {
-      message.error('Deployment failed: ' + error.message);
+      message.error("Deployment failed: " + error.message);
     } finally {
       setDeploying(false);
       setIsDeployModalOpen(false);
@@ -64,34 +66,41 @@ const AppNavBar = () => {
   );
 
   const menu = (
-    <Menu style={{ minWidth: '200px' }}>
+    <Menu style={{ minWidth: "200px" }}>
       <Menu.Item key="profile" className="profile-menu-item">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '4px 0' }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+            padding: "4px 0",
+          }}
+        >
           <Avatar
             src={user?.photoURL}
             icon={!user?.photoURL && <UserOutlined />}
-            style={{ 
-              backgroundColor: !user?.photoURL ? '#1890ff' : 'transparent',
-              width: '32px',
-              height: '32px'
+            style={{
+              backgroundColor: !user?.photoURL ? "#1890ff" : "transparent",
+              width: "32px",
+              height: "32px",
             }}
             crossOrigin="anonymous"
             onError={(e) => {
-              e.target.style.display = 'none';
+              e.target.style.display = "none";
             }}
             alt={user?.displayName || user?.email || "User"}
           />
-          <span style={{ fontWeight: '500' }}>{user?.displayName || user?.email || "User"}</span>
+          <span style={{ fontWeight: "500" }}>
+            {user?.displayName || user?.email || "User"}
+          </span>
         </div>
       </Menu.Item>
-    <Menu.Item key='Dashboard' >
-      <Link style={{textDecoration:'none'}} to='/userpage'>Go to Dashboard</Link>
-
-    </Menu.Item>
-      
-      <Menu.Item key="settings" icon={<SettingOutlined />} onClick={() => setIsSettingsModalOpen(true)}>
-        Settings
+      <Menu.Item key="Dashboard">
+        <Link style={{ textDecoration: "none" }} to="/userpage">
+          Go to Dashboard
+        </Link>
       </Menu.Item>
+
       <Menu.Divider />
       <Menu.Item key="logout" icon={<LogoutOutlined />} onClick={handleLogout}>
         Logout
@@ -101,110 +110,146 @@ const AppNavBar = () => {
 
   return (
     <>
-    <div className='m-1' style={{marginBottom: '10px',backgroundColor: 'black'}}>
-
-      <Header
+      <div
+        className="m-1"
         style={{
-            backgroundColor: 'black',
-          padding: '0 24px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 1000,
-          height: '64px',
-          borderBottom: `1px solid ${theme === 'dark' ? '#434343' : '#d9d9d9'}`,
-          marginBottom: '10px',
+          marginBottom: "10px",
+          background:
+            "linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0d1b2a 100%)",
         }}
       >
-        {/* Left side: User Profile */}
-        <div>
-          {user ? (
-            <Dropdown overlay={menu} placement="bottomRight" trigger={['hover']}>
-              <div style={{ 
-                display: 'flex', 
-                alignItems: 'center', 
-                gap: '10px', 
-                cursor: 'pointer',
-              }}>
-                <Avatar
-                  src={user?.photoURL}
-                  icon={!user?.photoURL && <UserOutlined />}
-                  style={{ 
-                    backgroundColor: !user?.photoURL ? '#1890ff' : 'transparent',
-                    width: '32px',
-                    height: '32px'
+        <Header
+          style={{
+            background:
+              "linear-gradient(135deg, #02062aff 0%, #1a1a2e 50%, #0d1b2a 100%)",
+            padding: "0 24px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            zIndex: 1000,
+            height: "64px",
+            borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
+            marginBottom: "10px",
+            boxShadow: "0 4px 20px rgba(0, 0, 0, 0.3)",
+          }}
+        >
+          {/* Left side: User Profile */}
+          <div>
+            {user ? (
+              <Dropdown
+                overlay={menu}
+                placement="bottomRight"
+                trigger={["hover"]}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                    cursor: "pointer",
                   }}
-                  crossOrigin="anonymous"
-                  alt={user?.displayName || user?.email}
-                />
-                <span style={{ 
-                  color:theme === 'dark' ? 'white' : 'black', 
-                  fontWeight: 'bold',
-                  fontSize: '14px'
-                }}>
-                  {user?.displayName || user?.email}
-                </span>
+                >
+                  <Avatar
+                    src={user?.photoURL}
+                    icon={!user?.photoURL && <UserOutlined />}
+                    style={{
+                      backgroundColor: !user?.photoURL
+                        ? "#1890ff"
+                        : "transparent",
+                      width: "32px",
+                      height: "32px",
+                    }}
+                    crossOrigin="anonymous"
+                    alt={user?.displayName || user?.email}
+                  />
+                  <span
+                    style={{
+                      color: "#ffffff",
+                      fontWeight: 600,
+                      fontSize: "14px",
+                    }}
+                  >
+                    {user?.displayName || user?.email}
+                  </span>
+                </div>
+              </Dropdown>
+            ) : (
+              <div style={{ display: "flex", gap: "12px" }}>
+                <Button
+                  type="default"
+                  style={{
+                    backgroundColor: "transparent",
+                    border: "1px solid rgba(255, 255, 255, 0.3)",
+                    color: "#ffffff",
+                    fontWeight: 600,
+                    marginRight: 8,
+                  }}
+                >
+                  <Link
+                    to="/login"
+                    style={{ color: "#ffffff", textDecoration: "none" }}
+                  >
+                    Login
+                  </Link>
+                </Button>
+                <Button
+                  type="primary"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                    border: "none",
+                    color: "#ffffff",
+                    fontWeight: 600,
+                  }}
+                >
+                  <Link
+                    to="/signup"
+                    style={{ color: "#ffffff", textDecoration: "none" }}
+                  >
+                    Get Started
+                  </Link>
+                </Button>
               </div>
-            </Dropdown>
-          ) : (
-            <div style={{ display: 'flex', gap: '12px' }}>
-              <Button
-                type="primary"
-                style={{
-                  backgroundColor: 'rgb(39, 39, 37)',
-                  border: 'none',
-                  color: 'black',
-                  fontWeight: 'bold',
-                  marginRight: 8,
-                }}
-              >
-                <Link to="/login" style={{ color: 'black', textDecoration: 'none' }}>
-                  Login
-                </Link>
-              </Button>
-              <Button
-                style={{
-                  backgroundColor: 'rgb(39, 39, 37)',
-                  border: '1px solid gray',
-                  color: 'white',
-                  fontWeight: 'bold',
-                }}
-              >
-                <Link to="/signup" style={{ color: 'white', textDecoration: 'none' }}>
-                  Get Started
-                </Link>
-              </Button>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
 
-       
+          {/* Right side: Deploy Button */}
+          <div>
+            {user && (
+              <div className="m-3 ">
+                <a href="https://mvp-platform-project.onrender.com/download">
+                  <Button
+                    style={{
+                      backgroundColor: "rgba(255, 255, 255, 0.1)",
+                      color: "#ffffff",
+                      padding: "8px 16px",
+                      borderRadius: "6px",
+                      fontWeight: 600,
+                      border: "1px solid rgba(255, 255, 255, 0.2)",
+                      marginRight: "20px",
+                      backdropFilter: "blur(10px)",
+                      transition: "all 0.3s ease",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.backgroundColor =
+                        "rgba(255, 255, 255, 0.2)";
+                      e.target.style.borderColor = "rgba(255, 255, 255, 0.4)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.backgroundColor =
+                        "rgba(255, 255, 255, 0.1)";
+                      e.target.style.borderColor = "rgba(255, 255, 255, 0.2)";
+                    }}
+                  >
+                    Download App
+                  </Button>
+                </a>
 
-        {/* Right side: Deploy Button */}
-        <div>
-          {user && (
-            <div className='m-3 '>
-            <a href="https://mvp-platform-project.onrender.com/download">
-  <Button
-    style={{
-      backgroundColor: 'white',
-      color: 'black',
-      padding: '8px 16px',
-      borderRadius: '5px',
-      fontWeight: 'bold',
-      border: '1px solid gray',
-      marginRight:'20px'
-    }}
-    >
-    Download App
-  </Button>
-</a>
-
-            {/* <Button
+                {/* <Button
               type="primary"
               icon={<RocketOutlined />}
               onClick={handleDeploy}
@@ -217,20 +262,13 @@ const AppNavBar = () => {
             >
               Deploy
             </Button> */}
+              </div>
+            )}
           </div>
-          )}
-        </div>
-      </Header>
-
-     
-
-      <SettingsModal 
-        isOpen={isSettingsModalOpen} 
-        onClose={() => setIsSettingsModalOpen(false)} 
-      />
-                  </div>
-        </>
+        </Header>
+      </div>
+    </>
   );
 };
 
-export default AppNavBar; 
+export default AppNavBar;

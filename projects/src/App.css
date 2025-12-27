@@ -1,118 +1,99 @@
 .app {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    background: #f5f5f5;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 2rem;
+  background: linear-gradient(135deg, #e0f7fa, #80deea);
+  min-height: 100vh;
 }
 
-h1 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 30px;
+.app-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
 }
 
-.todo-container {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+.app-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  color: #00796b;
 }
 
-.input-container {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
+.note {
+  font-size: 0.8rem;
+  color: #555;
 }
 
-.todo-input {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 16px;
-    transition: border-color 0.3s ease;
+.current-weather {
+  margin-bottom: 3rem;
 }
 
-.todo-input:focus {
-    outline: none;
-    border-color: #4CAF50;
+.forecast {
+  margin-top: 2rem;
 }
 
-.add-btn {
-    padding: 10px 20px;
-    background: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background 0.3s ease;
+.weather-card {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  background: #f5f5f5;
+  border-radius: 1rem;
+  align-items: center;
+  transition: transform 0.3s ease;
 }
 
-.add-btn:hover {
-    background: #45a049;
+.weather-card:hover {
+  transform: translateX(-5px);
 }
 
-.todo-list {
-    margin-bottom: 20px;
+.temperature {
+  font-size: 2.5rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #00796b;
 }
 
-.todo-item {
-    display: flex;
+.icon {
+  font-size: 3rem;
+}
+
+.details {
+  flex: 1;
+}
+
+.day-card {
+  flex: 1;
+  min-width: 120px;
+  text-align: center;
+  padding: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.day-card:hover {
+  transform: scale(1.05);
+}
+
+.day-weather {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.forecast-days {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .forecast-days {
+    flex-direction: column;
     align-items: center;
-    padding: 10px;
-    background: #f8f8f8;
-    margin-bottom: 5px;
-    border-radius: 4px;
-    transition: all 0.3s ease;
-}
-
-.todo-item.completed {
-    background: #f0f0f0;
-}
-
-.todo-item.completed .todo-text {
-    text-decoration: line-through;
-    opacity: 0.7;
-}
-
-.todo-item:hover {
-    transform: translateX(5px);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.todo-checkbox {
-    margin-right: 10px;
-    width: 16px;
-    height: 16px;
-    cursor: pointer;
-}
-
-.todo-text {
-    flex: 1;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.delete-btn {
-    padding: 5px 10px;
-    background: #ff4444;
-    color: white;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background 0.3s ease;
-}
-
-.delete-btn:hover {
-    background: #cc0000;
-}
-
-.todo-footer {
-    text-align: center;
-    color: #666;
-    font-size: 14px;
+  }
 }

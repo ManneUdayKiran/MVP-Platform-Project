@@ -2,97 +2,101 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
-    const [todos, setTodos] = useState([]);
-    const [input, setInput] = useState('');
-    
-    useEffect(() => {
-        // Load todos from localStorage on initial render
-        const savedTodos = localStorage.getItem('todos');
-        if (savedTodos) {
-            setTodos(JSON.parse(savedTodos));
-        }
-    }, []);
+  const [currentWeather, setCurrentWeather] = useState(null);
+  const [forecast, setForecast] = useState([]);
+  const [location, setLocation] = useState('New York');
 
-    useEffect(() => {
-        // Save todos to localStorage whenever they change
-        localStorage.setItem('todos', JSON.stringify(todos));
-    }, [todos]);
+  // Simulated weather data (can be replaced with API call)
+  const simulatedData = [
+    {
+      date: new Date(),
+      temperature: 22,
+      condition: 'Sunny',
+      humidity: 65,
+      wind: '15 km/h',
+      icon: '☀️'
+    },
+    {
+      date: new Date(),
+      temperature: 24,
+      condition: 'Partly Cloudy',
+      humidity: 68,
+      wind: '12 km/h',
+      icon: '⛅'
+    },
+    {
+      date: new Date(),
+      temperature: 28,
+      condition: 'Rain Showers',
+      humidity: 82,
+      wind: '20 km/h',
+      icon: '🌦️'
+    },
+    {
+      date: new Date(),
+      temperature: 23,
+      condition: 'Cloudy',
+      humidity: 75,
+      wind: '10 km/h',
+      icon: '☁️'
+    },
+    {
+      date: new Date(),
+      temperature: 20,
+      condition: 'Light Breeze',
+      humidity: 60,
+      wind: '18 km/h',
+      icon: '🍃'
+    }
+  ];
 
-    const addTodo = () => {
-        if (input.trim()) {
-            setTodos([...todos, {
-                id: Date.now(),
-                text: input.trim(),
-                completed: false
-            }]);
-            setInput('');
-        }
-    };
+  useEffect(() => {
+    // Simulate API call
+    setCurrentWeather(simulatedData[0]);
+    setForecast(simulatedData.slice(1));
+  }, []);
 
-    const toggleTodo = (id) => {
-        setTodos(todos.map(todo => 
-            todo.id === id ? { ...todo, completed: !todo.completed } : todo
-        ));
-    };
-
-    const deleteTodo = (id) => {
-        setTodos(todos.filter(todo => todo.id !== id));
-    };
-
-    return (
-        <div className="app">
-            <h1>Todo List</h1>
-            <div className="todo-container">
-                <div className="input-container">
-                    <input 
-                        type="text" 
-                        value={input}
-                        onChange={(e) => setInput(e.target.value)}
-                        placeholder="Add a new todo"
-                        className="todo-input"
-                    />
-                    <button 
-                        onClick={addTodo}
-                        className="add-btn"
-                    >
-                        Add
-                    </button>
-                </div>
-                <div className="todo-list">
-                    {todos.map(todo => (
-                        <div 
-                            key={todo.id}
-                            className={`todo-item ${todo.completed ? 'completed' : ''}`}
-                        >
-                            <input
-                                type="checkbox"
-                                checked={todo.completed}
-                                onChange={() => toggleTodo(todo.id)}
-                                className="todo-checkbox"
-                            />
-                            <span 
-                                className="todo-text"
-                                onClick={() => toggleTodo(todo.id)}
-                            >
-                                {todo.text}
-                            </span>
-                            <button 
-                                onClick={() => deleteTodo(todo.id)}
-                                className="delete-btn"
-                            >
-                                Delete
-                            </button>
-                        </div>
-                    ))}
-                </div>
-                <div className="todo-footer">
-                    <span className="todo-count">
-                        {todos.filter(todo => !todo.completed).length} items remaining
-                    </span>
-                </div>
+  return (
+    <div className="app">
+      <div className="app-container">
+        <header className="app-header">
+          <h1>Weather App</h1>
+          <p className="note">* Simulated data for demo purposes</p>
+        </header>
+        
+        <div className="current-weather">
+          <h2>{location}</h2>
+          <div className="weather-card">
+            <div className="temperature">
+              <span className="icon">{currentWeather?.icon}</span>
+              <span>{currentWeather?.temperature}°C</span>
             </div>
+            <div className="details">
+              <p>{currentWeather?.condition}</p>
+              <p>Humidity: {currentWeather?.humidity}%</p>
+              <p>Wind: {currentWeather?.wind}</p>
+            </div>
+          </div>
         </div>
-    );
+        
+        <div className="forecast">
+          <h2>5-Day Forecast</h2>
+          <div className="forecast-days">
+            {forecast.map((day, index) => (
+              <div key={index} className="day-card">
+                <p>{new Date(day.date).toLocaleDateString()}</p>
+                <div className="day-weather">
+                  <span className="icon">{day.icon}</span>
+                  <span>{day.temperature}°C</span>
+                  <p>{day.condition}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default App;

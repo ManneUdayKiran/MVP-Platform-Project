@@ -9,6 +9,11 @@ from fastapi.responses import FileResponse, JSONResponse
 from utils.file_utils import save_file, list_files, get_file_content, setup_project_structure
 from fastapi.responses import FileResponse
 import shutil
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -34,8 +39,8 @@ BASE_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "projects")
 PROJECT_DIR, PUBLIC_DIR = setup_project_structure(BASE_DIR)
 
 # === Config ===
-GROQ_API_KEY =os.environ.get('GROQ_API_KEY')
-GROQ_MODEL = "deepseek-r1-distill-llama-70b"  # or llama3-8b-8192, gemma2-9b-it
+GROQ_API_KEY = os.environ.get('GROQ_API_KEY')
+GROQ_MODEL = "qwen/qwen3-32b"  # Valid Groq models: llama-3.3-70b-versatile, llama3-8b-8192, mixtral-8x7b-32768
 
 # === Request Models ===
 class PromptRequest(BaseModel):
